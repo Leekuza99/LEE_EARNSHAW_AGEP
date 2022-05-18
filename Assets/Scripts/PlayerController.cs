@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +20,15 @@ namespace AGEP.Project.Player
         Vector3 velocity;
         bool isGrounded;
         
-        public IWeapon weapon;
-        // Update is called once per frame
+        public GameObject weaponGO;
+        public GameObject bullet;
+        private IWeapon weapon;
+
+        private void Start()
+        {
+            weapon = weaponGO.GetComponent<IWeapon>();
+        }
+
         void Update()
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundmask);

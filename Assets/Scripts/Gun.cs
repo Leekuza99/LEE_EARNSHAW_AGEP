@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour, IWeapon
 {
+    public GunAttributes gunAttributes;
+   
+    public Transform barrelEnd;
     
     // Start is called before the first frame update
     void Start()
@@ -15,26 +18,30 @@ public class Gun : MonoBehaviour, IWeapon
     // Update is called once per frame
     void Update()
     {
-        
+     
     }
 
     public void ChangeWeapon()
     {
-        throw new System.NotImplementedException();
+      Debug.Log("Weapon changed");
     }
 
     public void PickupWeapon()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Weapon picked up");
     }
 
     public void ReloadWeapon()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Weapon reloaded");
     }
 
     public void ShootWeapon()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Weapon Fired");
+        var _bullet = Instantiate(gunAttributes.Bullet);
+        _bullet.transform.position = barrelEnd.position;
+        // force
+        _bullet.AddForce(Vector3.forward * gunAttributes.BulletSpeed, ForceMode.Impulse);
     }
 }
