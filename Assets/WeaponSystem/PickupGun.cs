@@ -2,34 +2,59 @@
 
 namespace WeaponSystem
 {
-    public class PickupGun: MonoBehaviour
+    public class PickupGun : MonoBehaviour
     {
-        public GameObject gun;
-        public GameObject bullet;
-        public Camera Camera;
+        public float distance = 10f;
+        public Transform equipPosition;
+        GameObject currentWeapon;
 
+        bool canGrab;
+
+
+
+        void Start()
+        {
+
+        }
+
+        // Update is called once per frame
         void Update()
         {
-            //To cast an action
-            RaycastHit hit;
-            Ray r = new Ray(Camera.transform.position, Camera.transform.forward);
+            CheckGrab();
 
-            //
-            if (Physics.Raycast(transform.position, transform.forward, out hit))
+            if (canGrab)
             {
-                if (hit.transform.tag == "item")
-                {
-                    IPickupWeapon gunInfo = hit.transform.GetComponent<IPickupWeapon>();
-                    if (gunInfo != null)
-                    {
-                        //If the item has a gun script on it, get the mesh and bullet info
-                        //ShootWeapon();
-                    }
+                if (Input.GetKeyDown(KeyCode.T))
 
+                    PickUp();
 
-                    Destroy(hit.transform.gameObject);
-                }
             }
+        }
+
+        private void CheckGrab()
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, distance))
+            {
+                if (hit.transform.tag == "CanGrab")
+                {
+                    currentWeapon = hit.transform.gameObject;
+                    canGrab = true;
+                }
+
+            }
+            else
+                canGrab = false;
+
+        }
+
+        private void PickUp()
+        {
+            currentWeapon.transform.position = equipPosition.position;
+            currentWeapon.transform.parent = equipPosition;
+            currentWeapon.transform.localEulerAngles = new Vector3(0f, 0f, 0f);
+            currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+            currentWeapon.GetComponent<BoxCollider>().isTrigger = true;
         }
     }
 }

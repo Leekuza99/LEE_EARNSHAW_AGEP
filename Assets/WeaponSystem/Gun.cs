@@ -9,11 +9,13 @@ namespace WeaponSystem
         public GameObject bulletPrefab;
    
         public Transform barrelEnd;
+        private GunAttributes Weapon; 
+        AudioSource shootingSound;
 
         // Start is called before the first frame update
         void Start()
         {
-            
+            shootingSound = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -21,8 +23,8 @@ namespace WeaponSystem
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                var bullet = Instantiate(bulletPrefab, barrelEnd.position, barrelEnd.rotation);
-                bullet.GetComponent<Rigidbody>().velocity = barrelEnd.forward * gunAttributes.BulletSpeed;
+                shootingSound.Play();
+                ShootWeapon();
             }
         }
         
@@ -35,7 +37,9 @@ namespace WeaponSystem
 
         public void PickupWeapon()
         {
+            
             Debug.Log("Weapon picked up");
+            
             
         }
 
@@ -47,13 +51,8 @@ namespace WeaponSystem
         public void ShootWeapon()
         {
             Debug.Log("Weapon Fired");
-            /*var _bullet = Instantiate(gunAttributes.Bullet);
-            _bullet.transform.position = barrelEnd.position;
-            _bullet.AddForce(Vector3.forward * gunAttributes.BulletSpeed, ForceMode.Impulse);
-            if (Input.GetKeyDown(KeyCode.Q))*/
-            {
-                //Instantiate (_bullet,)
-            }
+            var bullet = Instantiate(bulletPrefab, barrelEnd.position, barrelEnd.rotation);
+            bullet.GetComponent<Rigidbody>().velocity = barrelEnd.forward * gunAttributes.BulletSpeed * gunAttributes.rateOfFire;
         }
     }
 }

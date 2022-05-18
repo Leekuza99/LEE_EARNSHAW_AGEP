@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float ammo = 3;
+    public float Time = 100;
+    public GameObject EnemyPrefab;
 
     void Awake()
     {
-        Destroy(gameObject, ammo);
+        Destroy(EnemyPrefab, Time);
     }
+    
+    
 
     void OnCollisionEnter(Collision collision)
     {
         Destroy(collision.gameObject);
-        Destroy(gameObject);
+        Destroy(EnemyPrefab);
+        
     }
 }
