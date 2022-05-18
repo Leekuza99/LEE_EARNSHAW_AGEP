@@ -6,6 +6,7 @@ namespace AGEP.Project.Player
 {
     public class MouseLook : MonoBehaviour
     {
+        public Camera Camera;
 
         public float mouseSensitivity = 100f;
 
