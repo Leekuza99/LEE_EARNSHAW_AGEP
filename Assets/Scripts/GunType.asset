@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: GunType
   m_EditorClassIdentifier: 
   RateOfFire: 1
+  BulletSpeed: 20
   MachineGunFire: 1
-  gunSound: {fileID: 0}
+  gunSound: {fileID: 8300000, guid: 310eeb57628f5244d9bd6558ea3a988c, type: 3}
   ammoClips: 1
   nameOfGun: default gun
-  bullet: {fileID: 0}
+  Bullet: {fileID: -1520694006236765864, guid: c5df742fbd3f1924bae3174643902896, type: 3}

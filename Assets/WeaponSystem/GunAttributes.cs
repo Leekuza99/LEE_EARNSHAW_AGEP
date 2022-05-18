@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AGEP.Project.Player
+namespace WeaponSystem
 {
     [CreateAssetMenu(fileName = "GunType", menuName = "Gun Type", order = 0)]
     public class GunAttributes : ScriptableObject

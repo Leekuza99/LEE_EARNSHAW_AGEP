@@ -1,4 +1,4 @@
-﻿namespace AGEP.Project.Player
+﻿namespace WeaponSystem
 {
     public interface IDamageable
     {

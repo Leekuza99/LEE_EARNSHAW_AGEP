@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponSystem;
 
 namespace AGEP.Project.Player
 {
@@ -68,10 +69,7 @@ namespace AGEP.Project.Player
             {
                 PickupWeapon();
             }
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                ReloadWeapon();
-            }
+           
             if (Input.GetKeyDown(KeyCode.E))
             {
                 ShootWeapon();
@@ -87,11 +85,6 @@ namespace AGEP.Project.Player
         public void PickupWeapon()
         {
             weapon.PickupWeapon();
-        }
-
-        public void ReloadWeapon()
-        {
-           weapon.ReloadWeapon();
         }
 
         public void ShootWeapon()
