@@ -5,7 +5,7 @@
     {
         // Player to Weapon Interface
         void ChangeWeapon();
-        void PickupWeapon();
+
         void ShootWeapon();  
     }
    

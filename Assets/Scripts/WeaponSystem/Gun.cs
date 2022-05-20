@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections;
+using ScriptableObjects;
 
 namespace WeaponSystem
 {
@@ -7,23 +8,39 @@ namespace WeaponSystem
     {
         public GunAttributes gunAttributes;
         public GameObject bulletPrefab;
-   
+
+        public int ammoClips = 10;
+        private int currentAmmo;
+        public float reloadTime = 1f;
+        private bool isReloading = false;
+        
         public Transform barrelEnd;
         private GunAttributes Weapon; 
-        AudioSource shootingSound;
+        public AudioSource audioSource;
+      
 
         // Start is called before the first frame update
         void Start()
         {
-            shootingSound = GetComponent<AudioSource>();
+            if(currentAmmo == 1)
+                currentAmmo = ammoClips;
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (isReloading)
+                return;
+            
+            if (currentAmmo <= 0)
+            {
+                StartCoroutine(ReloadWeapon());
+                return;
+            }
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                shootingSound.Play();
+                audioSource.Play();
                 ShootWeapon();
             }
         }
@@ -35,21 +52,19 @@ namespace WeaponSystem
             Debug.Log("Weapon changed");
         }
 
-        public void PickupWeapon()
+        
+        IEnumerator ReloadWeapon()
         {
-            
-            Debug.Log("Weapon picked up");
-            
-            
-        }
-
-        public void ReloadWeapon()
-        {
-            Debug.Log("Weapon reloaded");
+            isReloading = true;
+            Debug.Log("Weapon reloading");
+            yield return new WaitForSeconds(reloadTime);
+            currentAmmo = ammoClips;
+            isReloading = false;
         }
 
         public void ShootWeapon()
         {
+            currentAmmo--;
             Debug.Log("Weapon Fired");
             var bullet = Instantiate(bulletPrefab, barrelEnd.position, barrelEnd.rotation);
             bullet.GetComponent<Rigidbody>().velocity = barrelEnd.forward * gunAttributes.BulletSpeed * gunAttributes.rateOfFire;

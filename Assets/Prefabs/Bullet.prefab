@@ -125,4 +125,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c8ddecdcdf40fc44a51e468bec2ab2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammo: 3
+  DestroyDelay: 100
+  damageAmount: 1

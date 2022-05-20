@@ -4,92 +4,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaponSystem;
 
-namespace AGEP.Project.Player
+public class PlayerController : MonoBehaviour, IWeapon
 {
-    public class PlayerController : MonoBehaviour, IWeapon
+    public CharacterController controller;
+
+    public float speed = 12f;
+    public float gravity = -9.81f;
+    public float jumpHeight = 3f;
+
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
+    public LayerMask groundmask;
+        
+    Vector3 velocity;
+    bool isGrounded;
+        
+    public GameObject weaponGO;
+    public GameObject bullet;
+    private IWeapon weapon;
+
+    private void Start()
     {
-        public CharacterController controller;
+        weapon = weaponGO.GetComponent<IWeapon>();
+    }
 
-        public float speed = 12f;
-        public float gravity = -9.81f;
-        public float jumpHeight = 3f;
+    void Update()
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundmask);
 
-        public Transform groundCheck;
-        public float groundDistance = 0.4f;
-        public LayerMask groundmask;
+        if(isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * x + transform.forward * z;
+
+        controller.Move(move * speed * Time.deltaTime);
+
+        if(Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); 
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+
+        controller.Move(velocity * Time.deltaTime);
         
-        Vector3 velocity;
-        bool isGrounded;
-        
-        public GameObject weaponGO;
-        public GameObject bullet;
-        private IWeapon weapon;
-
-        private void Start()
-        {
-            weapon = weaponGO.GetComponent<IWeapon>();
-        }
-
-        void Update()
-        {
-            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundmask);
-
-            if(isGrounded && velocity.y < 0)
-            {
-                velocity.y = -2f;
-            }
-
-            float x = Input.GetAxis("Horizontal");
-            float z = Input.GetAxis("Vertical");
-
-            Vector3 move = transform.right * x + transform.forward * z;
-
-            controller.Move(move * speed * Time.deltaTime);
-
-            if(Input.GetButtonDown("Jump") && isGrounded)
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity); 
-            }
-
-            velocity.y += gravity * Time.deltaTime;
-
-            controller.Move(velocity * Time.deltaTime);
-            WeaponHandler();
             
-        }
+    }
+    public void ChangeWeapon()
+    {
+        weapon.ChangeWeapon();
+    }
+    
 
-        void WeaponHandler()
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ChangeWeapon();
-            }
-            
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                PickupWeapon();
-            }
-           
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ShootWeapon();
-            }
-        }
-            
-
-        public void ChangeWeapon()
-        {
-            weapon.ChangeWeapon();
-        }
-
-        public void PickupWeapon()
-        {
-            weapon.PickupWeapon();
-        }
-
-        public void ShootWeapon()
-        {
-            weapon.ShootWeapon();
-        }
+    public void ShootWeapon()
+    {
+        weapon.ShootWeapon();
     }
 }
